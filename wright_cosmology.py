@@ -16,7 +16,7 @@ parser.add_argument('--Om', metavar='Om', type=np.float, nargs='?', default=0.28
 ##  WR = 4.165E-5/(h*h)   # includes 3 massless neutrino species, T0 = 2.72528.
 parser.add_argument('--Ov', metavar='-Ov', type=np.float, nargs='?', default=1.0 - 0.286 - 0.4165/(69.6*69.6), help='Ov.')
 
-##  parser.add_argument('--verbose', action='store_true', help='Be verbose.', default=1)
+parser.add_argument('--verbose', action='store_true', help='Be verbose.', default=1)
 
 args = parser.parse_args()
 
@@ -126,7 +126,7 @@ print('\n\n--------------  Ned Wright Cosmology calculator  -------------\n\n')
 print('For H0 = ' + '%1.3f' % H0 + ', Om = ' + '%1.3f' % WM + ', Ov = {:1.3f}, z= {:1.3f}.\n'.format(WV, z))
 print('It is now {:.3f} Gyr since the Big Bang.\n'.format(age_Gyr))
 print('The age at redshift z was {:.3f} Gyr.\n'.format(zage_Gyr))
-print('The comoving radial distance is {}'.format('%1.3f' % (h * DCMR_Mpc) + ' Mpc/h.\n'))
+print('The comoving radial distance is {:.3f} Mpc/h.\n'.format(h * DCMR_Mpc))
 print('The comoving volume within redshift z is {:.3f} (Gpc/h)^3.\n'.format(h*h*h*V_Gpc))
 print('The angular diameter distance is {:.3f} Mpc/h.\n'.format(h * DA_Mpc))
 print('This gives a scale of {:.3f} kpc/h/".\n'.format(h * kpc_DA))

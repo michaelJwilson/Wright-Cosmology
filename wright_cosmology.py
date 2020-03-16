@@ -7,14 +7,16 @@ import numpy as np
 from   math      import *
 
 
-parser = argparse.ArgumentParser(description='Ned Wright Cosmology Calcalculator.\n\nOutput: age at z, distance in Mpc, kpc/arcsec, apparent to abs mag conversion.')
+parser = argparse.ArgumentParser(description='Ned Wright Cosmology Calcalculator.')
 
-parser.add_argument('--z',  metavar='-z',  type=np.float, nargs='?', default=3.0,                              help='redshift to calculate')
-parser.add_argument('--H0', metavar='-H0', type=np.float, nargs='?', default=69.6,                             help='Hubble constant today.')
-parser.add_argument('--Om', metavar='-Om', type=np.float, nargs='?', default=0.286,                            help='Om.')
+parser.add_argument('--z',  metavar='z',  type=np.float, nargs='?', default=3.0,                              help='redshift to calculate')
+parser.add_argument('--H0', metavar='H0', type=np.float, nargs='?', default=69.6, help='Hubble constant today.')
+parser.add_argument('--Om', metavar='Om', type=np.float, nargs='?', default=0.286, help='Om.')
+
+##  WR = 4.165E-5/(h*h)   # includes 3 massless neutrino species, T0 = 2.72528.
 parser.add_argument('--Ov', metavar='-Ov', type=np.float, nargs='?', default=1.0 - 0.286 - 0.4165/(69.6*69.6), help='Ov.')
 
-parser.add_argument('--verbose', action='store_true', help='Be verbose.', default=1)
+##  parser.add_argument('--verbose', action='store_true', help='Be verbose.', default=1)
 
 args = parser.parse_args()
 
@@ -120,21 +122,14 @@ else:
 VCM = ratio*DCMR*DCMR*DCMR/3.
 V_Gpc = 4.*pi*((0.001*c/H0)**3)*VCM
 
-if verbose == 1:
-  print('\n\n--------------  Ned Wright Cosmology calculator  -------------\n\n')
-  print('For H0 = ' + '%1.3f' % H0 + ', Omega_M = ' + '%1.3f' % WM + ', Omega_vac = {:1.3f}, z= {:1.3f}.\n'.format(WV, z))
-  print('It is now {:.3f} Gyr since the Big Bang.\n'.format(age_Gyr))
-  print('The age at redshift z was {:.3f} Gyr.\n'.format(zage_Gyr))
-  print('The comoving radial distance is {}'.format('%1.3f' % DCMR_Mpc + ' Mpc or ' + '%1.3f' % DCMR_Gyr + ' Gly.\n'))
-  print('The comoving volume within redshift z is ' + '%1.3f' % V_Gpc + ' Gpc^3.\n')
-  print('The angular size distance D_A is ' + '%1.3f' % DA_Mpc + ' Mpc or {}'.format('%1.4f' % DA_Gyr + ' Gly.\n'))
-  print('This gives a scale of ' + '%.3f' % kpc_DA + ' kpc/".\n')
-  print('The luminosity distance D_L is ' + '%1.3f' % DL_Mpc + ' Mpc or ' + '%1.3f' % DL_Gyr + ' Gly.\n')
-  print('The distance modulus, m-M, is {:.3f}.'.format(5.*np.log10(DL_Mpc*1.e6)-5.))
-  print('\n\nDone.\n\n')
-  
-else:
-  print('%1.2f' % zage_Gyr)
-  print('%1.2f' % DCMR_Mpc)
-  print('%1.2f' % kpc_DA)
-  print('%1.2f' % (5*log10(DL_Mpc*1e6)-5))
+print('\n\n--------------  Ned Wright Cosmology calculator  -------------\n\n')
+print('For H0 = ' + '%1.3f' % H0 + ', Om = ' + '%1.3f' % WM + ', Ov = {:1.3f}, z= {:1.3f}.\n'.format(WV, z))
+print('It is now {:.3f} Gyr since the Big Bang.\n'.format(age_Gyr))
+print('The age at redshift z was {:.3f} Gyr.\n'.format(zage_Gyr))
+print('The comoving radial distance is {}'.format('%1.3f' % (h * DCMR_Mpc) + ' Mpc/h.\n'))
+print('The comoving volume within redshift z is {:.3f} (Gpc/h)^3.\n'.format(h*h*h*V_Gpc))
+print('The angular diameter distance is {:.3f} Mpc/h.\n'.format(h * DA_Mpc))
+print('This gives a scale of {:.3f} kpc/h/".\n'.format(h * kpc_DA))
+print('The luminosity distance is {:.3f} Mpc/h.\n'.format(h * DL_Mpc))
+print('The distance modulus (m-M) is {:.3f}.'.format(5.*np.log10(DL_Mpc*1.e6)-5.))
+print('\n\nDone.\n\n')
